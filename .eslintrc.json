@@ -5,7 +5,7 @@
         "node": true
     },
     "extends": [
-        "standard"
+        "google"
     ],
     "globals": {
         "Atomics": "readonly",
