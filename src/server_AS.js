@@ -1,4 +1,4 @@
-const net  = require('net');
+const net = require('net');
 
 // Initialization
 const idC = 'CIS3319USERID';
@@ -21,14 +21,17 @@ const server = net.createServer((socket) => {
 
   socket.on('data', (data) => {
     console.log(`${remoteAddress} sent the message: ${data}`);
-    
+
     data = JSON.parse(data);
-    if (data.idC !== idC)
+    if (data.idC !== idC) {
       return;
-    if (data.idTGS !== idTGS)
+    }
+    if (data.idTGS !== idTGS) {
       return;
-    if (data.TS1 < new Date().getTime() - 60000)
+    }
+    if (data.TS1 < new Date().getTime() - 60000) {
       return;
+    }
 
     const message = {
       keyTGS: keyTGS,

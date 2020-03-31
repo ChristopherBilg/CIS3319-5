@@ -16,7 +16,7 @@ const portTGS = 10000;
 
 // Getting the ticket from the authentication server
 readline.question('Press ENTER to get a ticket from the AS (authentication server). ');
-let ticketAS = (() => {
+const ticketAS = (() => {
   const client = new net.Socket();
 
   client.connect(portTGS, hostname, () => {
