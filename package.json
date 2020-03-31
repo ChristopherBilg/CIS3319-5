@@ -8,7 +8,8 @@
     "start": "node src/index.js",
     "client": "node src/client.js",
     "server_V": "node src/server_V.js",
-    "server_AS_TGS": "node src/server_AS_TGS.js",
+    "server_AS": "node src/server_AS.js",
+    "server_TGS": "node src/server_TGS.js",
     "test": "nyc mocha test/",
     "lint": "eslint src/ && eslint test/"
   },
@@ -33,5 +34,8 @@
     "eslint-plugin-standard": "^4.0.1",
     "mocha": "^7.1.1",
     "nyc": "^15.0.0"
+  },
+  "dependencies": {
+    "readline-sync": "^1.4.10"
   }
 }
