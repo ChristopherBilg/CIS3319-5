@@ -1,17 +1,52 @@
-const readline = require('readline');
+const net = require('net');
 
-const getInput = (query) => {
-  const rl = readline.createInterface({
-    input: process.stdin,
-    output: process.stdout,
+// Initialization
+const idC = 'CIS3319USERID';
+const idV = 'CIS3319SERVERID';
+const idTGS = 'CIS3319TGSID';
+const lifetime2 = 60000;
+const lifetime4 = 86400000;
+const keyC = require('../key/c.json').key;
+const keyV = require('../key/v.json').key;
+const keyTGS = require('../key/tgs.json').key;
+
+const hostname = '127.0.0.1';
+const port = 10002;
+
+// Sending the authentication server ticket to the client
+console.log('Waiting for the client to connect and timestamp information.');
+const server = net.createServer((socket) => {
+  const remoteAddress = `${socket.remoteAddress}:${socket.remotePort}`;
+  console.log(`Client connected: ${remoteAddress}`);
+
+  socket.on('data', (data) => {
+    console.log(`${remoteAddress} sent the message: ${data}`);
+
+    data = JSON.parse(data);
+    
+    const TS6 = new Date().getTime();
+    if (data.ticketV.TS4 < TS6 - 60000) {
+      console.log('Error: invalid timestamp');
+      return;
+    }
+
+    data.ticketV.TS4 += 1000;
+    const message = {
+      TS5: data.ticketV.TS4,
+      exit: true,
+    };
+    socket.write(JSON.stringify(message));
   });
 
-  return new Promise((resolve) => {
-    rl.question(query, (ans) => {
-      rl.close();
-      resolve(ans);
-    });
+  socket.on('close', () => {
+    console.log(`Client disconnected: ${remoteAddress}`);
   });
-};
 
-getInput('Press ENTER to quit. ');
+  socket.on('error', (error) => {
+    console.log(`Connection error from ${remoteAddress}: ${error.message}`);
+  });
+});
+
+server.listen(port, hostname, () => {
+  console.log(`The V server is listening on ${hostname}:${port}`);
+});

@@ -23,22 +23,25 @@ const server = net.createServer((socket) => {
     console.log(`${remoteAddress} sent the message: ${data}`);
 
     data = JSON.parse(data);
-    if (data.idC !== idC) {
-      return;
-    }
-    if (data.idTGS !== idTGS) {
-      return;
-    }
-    if (data.TS1 < new Date().getTime() - 60000) {
+
+    const TS2 = new Date().getTime();
+    if (data.TS1 < TS2 - 60000) {
+      console.log('Error: invalid timestamp');
       return;
     }
 
     const message = {
       keyTGS: keyTGS,
       idTGS: idTGS,
-      TS2: new Date().getTime(),
+      TS2: TS2,
       lifetime2: lifetime2,
-      ticketTGS: keyTGS,
+      ticketTGS: {
+        keyTGS: keyTGS,
+        idC: idC,
+        idTGS: idTGS,
+        TS2: TS2,
+        lifetime2: lifetime2,
+      },
       exit: true,
     };
     socket.write(JSON.stringify(message));
