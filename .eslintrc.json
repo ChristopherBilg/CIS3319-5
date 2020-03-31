@@ -2,7 +2,8 @@
     "env": {
         "commonjs": true,
         "es6": true,
-        "node": true
+        "node": true,
+        "mocha": true
     },
     "extends": [
         "google"
@@ -15,5 +16,12 @@
         "ecmaVersion": 2018
     },
     "rules": {
+      "max-len": ["error", 100, 2, {
+        "ignoreUrls": true,
+        "ignoreComments": false,
+        "ignoreRegExpLiterals": true,
+        "ignoreStrings": false,
+        "ignoreTemplateLiterals": false
+      }]
     }
 }

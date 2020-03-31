@@ -2,12 +2,8 @@ const net = require('net');
 
 // Initialization
 const idC = 'CIS3319USERID';
-const idV = 'CIS3319SERVERID';
 const idTGS = 'CIS3319TGSID';
 const lifetime2 = 60000;
-const lifetime4 = 86400000;
-const keyC = require('../key/c.json').key;
-const keyV = require('../key/v.json').key;
 const keyTGS = require('../key/tgs.json').key;
 
 const hostname = '127.0.0.1';

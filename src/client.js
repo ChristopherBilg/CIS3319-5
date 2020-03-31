@@ -7,7 +7,6 @@ const idV = 'CIS3319SERVERID';
 const idTGS = 'CIS3319TGSID';
 const lifetime2 = 60000;
 const lifetime4 = 86400000;
-const keyC = require('../key/c.json').key;
 const keyV = require('../key/v.json').key;
 const keyTGS = require('../key/tgs.json').key;
 
@@ -18,7 +17,7 @@ const portV = 10002;
 
 const getTicketGrantingTicket = new Promise((resolve, reject) => {
   const client = new net.Socket();
-  
+
   client.connect(portAS, hostname, () => {
     console.log('Successful connection made to AS (authentication server).');
 
@@ -126,24 +125,18 @@ const getTimestampFromV = new Promise((resolve, reject) => {
 
 // Code that will run (essentially a 'main function')
 readline.question('Press ENTER to get a ticket from the AS (authentication server). ');
-getTicketGrantingTicket
-  .then((data) => {
-    console.log('Data - Ticket Granting Ticket:', data);
-  })
-  .then(() => {
-    readline.question('Press ENTER to get a ticket from the TGS (ticket granting server). ');
-    return getServiceGrantingTicket;
-  })
-  .then((data) => {
-    console.log('Data - Service Granting Ticket:', data);
-  })
-  .then(() => {
-    readline.question('Press ENTER to get a timestamp returned from server V (destination server). ')
-    return getTimestampFromV;
-  })
-  .then((data) => {
-    console.log('Data - V:', data);
-  })
-  .catch((error) => {
-    console.log('Unexpected error in Promise chain:', error);
-  });
+getTicketGrantingTicket.then((data) => {
+  console.log('Data - Ticket Granting Ticket:', data);
+}).then(() => {
+  readline.question('Press ENTER to get a ticket from the TGS (ticket granting server). ');
+  return getServiceGrantingTicket;
+}).then((data) => {
+  console.log('Data - Service Granting Ticket:', data);
+}).then(() => {
+  readline.question('Press ENTER to get a timestamp returned from server V (destination server). ');
+  return getTimestampFromV;
+}).then((data) => {
+  console.log('Data - V:', data);
+}).catch((error) => {
+  console.log('Unexpected error in Promise chain:', error);
+});

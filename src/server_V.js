@@ -1,15 +1,6 @@
 const net = require('net');
 
 // Initialization
-const idC = 'CIS3319USERID';
-const idV = 'CIS3319SERVERID';
-const idTGS = 'CIS3319TGSID';
-const lifetime2 = 60000;
-const lifetime4 = 86400000;
-const keyC = require('../key/c.json').key;
-const keyV = require('../key/v.json').key;
-const keyTGS = require('../key/tgs.json').key;
-
 const hostname = '127.0.0.1';
 const port = 10002;
 
@@ -23,7 +14,7 @@ const server = net.createServer((socket) => {
     console.log(`${remoteAddress} sent the message: ${data}`);
 
     data = JSON.parse(data);
-    
+
     const TS6 = new Date().getTime();
     if (data.ticketV.TS4 < TS6 - 60000) {
       console.log('Error: invalid timestamp');
